@@ -7,26 +7,17 @@ var bodyParser = require('body-parser');
 app.use(cors())
 app.use(bodyParser.json());
 
-// get the client
-const mysql = require('mysql2');
-
-var host = 'localhost';
-if(process.env.NODE_ENV == 'production')  {
-    host = 'mysql-server'
-}
-
-
-// create the connection to database
 const connection = mysql.createConnection({
-  host: host,
+  host: 'mysql',
   user: 'root',
-  password: '1234456789',
-  database: 'employeesSystem'
+  password: '123456789',
+  database: 'finalproject'
+
 });
 
-app.get('/User', function (req, res, next) {
+app.get('/Users', function (req, res, next) {
     connection.query(
-  'SELECT * FROM User',
+  'SELECT * FROM Users',
   function(err, results, fields) {
     res.json(results);
     
@@ -39,8 +30,8 @@ app.get('/User', function (req, res, next) {
 
 app.post("/create", (req, res) => {
   connection.query(
-    "INSERT INTO User (name, gmail, password) VALUES (?,?,?)",
-    [req.body.name,  req.body.gmail, req.body.password],
+    "INSERT INTO 'Users' ('Username', 'Email', 'password') VALUES (?,?,?)",
+    [req.body.name,  req.body.email, req.body.password],
     (err, result) => {
       if (err) {
         console.log(err);
